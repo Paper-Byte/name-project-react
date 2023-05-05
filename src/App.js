@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { nameFormatting } from './functions';
-import { outputFunction } from './functions';
+import { useState } from "react";
+import { nameFormatting } from "./functions";
+import { outputFunction } from "./functions";
 
 const InputCountry = ({ handleChange, state }) => {
   return (
@@ -13,7 +13,7 @@ const InputCountry = ({ handleChange, state }) => {
           placeholder="Start typing..."
           id="country"
           type="text"
-          value={state['country']}
+          value={state["country"]}
           onChange={(e) => handleChange(e)}
         />
         <datalist id="countrySelect">
@@ -270,7 +270,7 @@ const InputName = ({ handleChange, state }) => {
       <input
         id="name"
         type="text"
-        value={state['name']}
+        value={state["name"]}
         onChange={(e) => handleChange(e)}
       />
     </>
@@ -294,18 +294,18 @@ const SearchBtn = ({ outputFunction, state }) => {
     <input
       type="button"
       value="Search Name"
-      onClick={(e) => console.log(state)}
+      onClick={(e) => outputFunction(state)}
     ></input>
   );
 };
 
-const HomePage = (outputFunction) => {
+const HomePage = () => {
   const [formState, setFormState] = useState({
-    country: '',
-    name: '',
-    age: '',
-    origin: '',
-    gender: '',
+    country: "",
+    name: "",
+    age: "",
+    origin: "",
+    gender: "",
   });
   const handleChange = (e) => {
     setFormState({
