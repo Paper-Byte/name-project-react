@@ -1,11 +1,11 @@
-import { useState } from "react";
-import { nameFormatting } from "./functions";
-import { outputFunction } from "./functions";
+import { useState } from 'react';
+import { nameFormatting } from './functions';
+import { outputFunction } from './functions';
 
 const InputCountry = ({ handleChange, state }) => {
   return (
     <>
-      <label for="country">Choose a region:</label>
+      {/* <label for="country">Choose a region:</label> */}
       <div id="countryInput">
         <input
           name="country"
@@ -13,11 +13,11 @@ const InputCountry = ({ handleChange, state }) => {
           placeholder="Start typing..."
           id="country"
           type="text"
-          value={state["country"]}
+          value={state['country']}
           onChange={(e) => handleChange(e)}
         />
         <datalist id="countrySelect">
-          <option value="United States of American"></option>
+          <option value="United States of America"></option>
           <option value="Afghanistan"></option>
           <option value="Albania"></option>
           <option value="Algeria"></option>
@@ -262,17 +262,32 @@ const InputCountry = ({ handleChange, state }) => {
   );
 };
 
-const InputName = ({ handleChange, state }) => {
+const InputName = ({
+  setFormState,
+  outputFunction,
+  handleChange,
+  state,
+}) => {
   // const [nameState, setNameState] = useState('Noah');
   return (
     <>
-      <label for="country">Choose a region:</label>
-      <input
-        id="name"
-        type="text"
-        value={state["name"]}
-        onChange={(e) => handleChange(e)}
-      />
+      <div id="userInputContainer">
+        <div id="userInput">
+          <label for="country">Choose a region:</label>
+          <input
+            id="name"
+            type="text"
+            value={state['name']}
+            onChange={(e) => handleChange(e)}
+          />
+          <InputCountry handleChange={handleChange} state={state} />
+          <SearchBtn
+            setFormState={setFormState}
+            outputFunction={outputFunction}
+            state={state}
+          />
+        </div>
+      </div>
     </>
   );
 };
@@ -282,30 +297,31 @@ const Output = ({ state }) => {
     return Object.entries(state).map((thing) => (
       <>
         <label>{nameFormatting(thing[0])}</label>
-        <br />
+
+        <h1>{thing[1]}</h1>
       </>
     ));
   };
   return <>{renderLabels()}</>;
 };
 
-const SearchBtn = ({ outputFunction, state }) => {
+const SearchBtn = ({ setFormState, outputFunction, state }) => {
   return (
     <input
       type="button"
       value="Search Name"
-      onClick={(e) => outputFunction(state)}
+      onClick={() => outputFunction(setFormState, state)}
     ></input>
   );
 };
 
 const HomePage = () => {
   const [formState, setFormState] = useState({
-    country: "",
-    name: "",
-    age: "",
-    origin: "",
-    gender: "",
+    name: '',
+    country: '',
+    age: '',
+    origin: '',
+    gender: '',
   });
   const handleChange = (e) => {
     setFormState({
@@ -316,9 +332,11 @@ const HomePage = () => {
   return (
     <>
       <InputName handleChange={handleChange} state={formState} />
-      <InputCountry handleChange={handleChange} state={formState} />
-      <Output state={formState} />
-      <SearchBtn outputFunction={outputFunction} state={formState} />
+      <div id="returnNameInfoContainer">
+        <div id="spacer"></div>
+        <Output state={formState} />
+        <div id="spacer"></div>
+      </div>
     </>
   );
 };
@@ -334,15 +352,7 @@ function App() {
           <h1>Name Statistics</h1>
         </div>
         <div id="mainBody">
-          <div id="userInputContainer">
-            <div id="userInput">
-              <HomePage />
-            </div>
-          </div>
-          <div id="returnNameInfoContainer">
-            <div id="spacer"></div>
-            <div id="spacer"></div>
-          </div>
+          <HomePage />
         </div>
       </body>
       <script src="javascript/apiCall.js"></script>

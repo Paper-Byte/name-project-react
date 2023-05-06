@@ -12,19 +12,24 @@ export const nameFormatting = (nameStr) => {
   return nameStr.charAt(0).toUpperCase() + nameStr.slice(1);
 };
 
-export const outputFunction = async (state) => {
-  const returnArray = [];
-  const countryStr = state.country;
-  returnArray.push(nameFormatting(state.name));
-  returnArray.push(countryStr);
-
-  returnArray.push(
-    await apiCalls.logAgifyData(state.name, countryStr)
+export const outputFunction = async (setFormState, state) => {
+  const stateName = nameFormatting(state.name);
+  const stateCountry = state.country;
+  const originState = await apiCalls.logNationalizeData(stateName);
+  const ageState = await apiCalls.logAgifyData(
+    stateName,
+    stateCountry
   );
-  returnArray.push(await apiCalls.logNationalizeData(state.name));
-  returnArray.push(
-    await apiCalls.logGenderizaData(state.name, countryStr)
+  const genderState = await apiCalls.logGenderizaData(
+    stateName,
+    stateCountry
   );
-  console.log(returnArray);
-  return returnArray;
+  setFormState({
+    ...state,
+    name: stateName,
+    country: stateCountry,
+    origin: originState,
+    age: ageState,
+    gender: genderState,
+  });
 };

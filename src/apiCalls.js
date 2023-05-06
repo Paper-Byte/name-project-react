@@ -1,4 +1,5 @@
 import { regionCodeToCountry } from './functions';
+import { nameFormatting } from './functions';
 
 const logAgifyData = async (name, country) => {
   const countryStr = await logCountriesData(country);
@@ -19,7 +20,10 @@ const logGenderizaData = async (name, country) => {
   const genderizeJson = await genderizeResponse.json();
   return (await genderizeJson.gender) === null
     ? 'Not Enough Data'
-    : genderizeJson.gender + ' ' + genderizeJson.probability + '%';
+    : nameFormatting(genderizeJson.gender) +
+        ' ' +
+        genderizeJson.probability * 100 +
+        '%';
 };
 
 const logNationalizeData = async (name) => {
